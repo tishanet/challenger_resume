@@ -17,6 +17,25 @@ Resources:
       WebsiteConfiguration:
         IndexDocument: index.html
       BucketName: my-resume-website-challenge
+  MyCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        DefaultCacheBehavior:
+          ViewerProtocolPolicy: allow-all
+          TargetOriginId: my-resume-website-challenge.s3-website-us-east-1.amazonaws.com
+          DefaultTTL: 0
+          MinTTL: 0
+          MaxTTL: 0
+          ForwardedValues:
+            QueryString: false
+        Origins:
+        - DomainName: my-resume-website-challenge.s3-website-us-east-1.amazonaws.com
+          Id: my-resume-website-challenge.s3-website-us-east-1.amazonaws.com
+          CustomOriginConfig:
+            OriginProtocolPolicy: match-viewer
+        Enabled: 'true'
+        DefaultRootObject: index.html
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
