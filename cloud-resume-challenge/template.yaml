@@ -36,6 +36,27 @@ Resources:
               - !Ref MyS3BucketChallenge
               - /*
       Bucket: !Ref MyS3BucketChallenge
+
+  MyCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        DefaultCacheBehavior:
+          ViewerProtocolPolicy: allow-all
+          TargetOriginId: my-resume-website-challenge.s3-website-us-east-1.amazonaws.com
+          DefaultTTL: 120
+          MinTTL: 60
+          MaxTTL: 120
+          ForwardedValues:
+            QueryString: false
+        Origins:
+          - DomainName: my-resume-website-challenge.s3-website-us-east-1.amazonaws.com
+            Id: my-resume-website-challenge.s3-website-us-east-1.amazonaws.com
+            CustomOriginConfig:
+              OriginProtocolPolicy: match-viewer
+        Enabled: "true"
+        DefaultRootObject: index.html
+
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
